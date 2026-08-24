@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact - DamiLab</title>
+</head>
+<body>
+    <h1>Contact Me</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <p style="color:green;">{{ messages[0] }}</p>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>{{ form.name.label }}<br>{{ form.name() }}</p>
+        <p>{{ form.email.label }}<br>{{ form.email() }}</p>
+        <p>{{ form.message.label }}<br>{{ form.message() }}</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+
+    <a href="/">Back to Home</a>
+</body>
+</html>
