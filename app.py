@@ -1,20 +1,24 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, abort
 
 app = Flask(__name__)
 
-courses = [
-    {"id": 1, "title": "Intro to Python", "level": "Beginner", "duration": "4 weeks"},
-    {"id": 2, "title": "Digital Marketing 101", "level": "Beginner", "duration": "3 weeks"},
-    {"id": 3, "title": "Data Analysis with Excel", "level": "Intermediate", "duration": "5 weeks"}
-]
-
-@app.route("/")
+@app.route('/')
 def home():
-    return render_template("index.html", course_count=len(courses))
+    try:
+        return render_template('index.html')
+    except Exception as e:
+        return f"Error loading home page: {e}", 500
 
-@app.route("/api/courses")
-def get_courses():
-    return jsonify(courses)
+@app.route('/about')
+def about():
+    try:
+        return render_template('about.html')
+    except Exception as e:
+        return f"Error loading about page: {e}", 500
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=False)
+@app.errorhandler(404)
+def page_not_found(e):
+    return "Page not found - 404", 404
+
+if __name__ == '__main__':
+    app.run(debug=True)
