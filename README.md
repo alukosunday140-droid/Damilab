@@ -1,20 +1,13 @@
-# DamiLab
+# Damilab
 
-A Flask web application built for Datafactor assessment.
+A Flask web application for managing tasks and data.
 
-## Features
-- Home and About pages
-- Contact form with SQLite database
-- Error handling for 404 pages
-- Unit tests with Pytest
+## Setup
+1. pip install -r requirements.txt
+2. flask run
 
-## Tech Stack
-- Flask
-- Flask-SQLAlchemy
-- Flask-WTF
-- Pytest
+## Tests
+Run `pytest` to execute tests.
 
-## How to Run
-1. Install requirements: `pip install -r requirements.txt`
-2. Run app: `python app.py`
-3. Run tests: `pytest`
+## CI/CD
+Automated testing with GitHub Actions.
