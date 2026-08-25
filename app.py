@@ -5,7 +5,8 @@ from wtforms import StringField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired, Email
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'damilab-secret-key-2025'
+import os
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-fallback-only')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///damilab.db'
 db = SQLAlchemy(app)
 
