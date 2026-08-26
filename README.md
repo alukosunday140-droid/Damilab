@@ -11,3 +11,4 @@ Run `pytest` to execute tests.
 
 ## CI/CD
 Automated testing with GitHub Actions.
+# trigger CI
