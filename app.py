@@ -1,12 +1,12 @@
 
-    from flask import Flask
+    from app import app
 
-    app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'dev-key'
+    def test_home_page_loads():
+        """Test that homepage returns 200 OK"""
+        app.config['TESTING'] = True
+        client = app.test_client()
+        response = client.get('/')
+        assert response.status_code == 200
 
-    @app.route('/')
-    def home():
-        return "Hello Damilab"
-
-    if __name__ == '__main__':
-        app.run(debug=True)
+    def test_dummy():
+        assert True
