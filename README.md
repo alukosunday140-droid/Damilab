@@ -1,14 +1,13 @@
-# Damilab
+    # Damilab
+    A simple Flask API for Datafactor assessment.
 
-A Flask web application for managing tasks and data.
+    ## Setup
+    1. Install dependencies: `pip install -r requirements.txt`
+    2. Run the app: `flask --app app run`
 
-## Setup
-1. pip install -r requirements.txt
-2. flask run
+    ## Endpoints
+    - `GET /` - Returns welcome message
+    - `GET /health` - Returns health status
 
-## Tests
-Run `pytest` to execute tests.
-
-## CI/CD
-Automated testing with GitHub Actions.
-# trigger CI
+    ## CI/CD
+    This repo uses GitHub Actions for continuous integration.
