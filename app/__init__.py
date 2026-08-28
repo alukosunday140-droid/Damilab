@@ -1,9 +1,12 @@
 from flask import Flask, jsonify
 
+from .config import DevelopmentConfig
 
-def create_app():
+
+def create_app(config_class=DevelopmentConfig):
     app = Flask(__name__)
 
+    app.config.from_object(config_class)
     app.config["JSON_SORT_KEYS"] = False
 
     @app.route("/")
