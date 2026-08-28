@@ -1,9 +1,27 @@
-from app import app
+import pytest
+
+from app import create_app
+from app.config import TestingConfig
 
 
-def test_home():
-    client = app.test_client()
+@pytest.fixture()
+def app():
+    app = create_app(TestingConfig)
+    app.config["PROPAGATE_EXCEPTIONS"] = False
 
+    @app.route("/test-error")
+    def test_error():
+        raise Exception("Test error")
+
+    return app
+
+
+@pytest.fixture()
+def client(app):
+    return app.test_client()
+
+
+def test_home(client):
     response = client.get("/")
 
     assert response.status_code == 200
@@ -12,9 +30,7 @@ def test_home():
     assert response.json["version"] == "1.0.0"
 
 
-def test_health():
-    client = app.test_client()
-
+def test_health(client):
     response = client.get("/health")
 
     assert response.status_code == 200
@@ -22,9 +38,7 @@ def test_health():
     assert response.json["status"] == "ok"
 
 
-def test_not_found():
-    client = app.test_client()
-
+def test_not_found(client):
     response = client.get("/does-not-exist")
 
     assert response.status_code == 404
@@ -32,15 +46,7 @@ def test_not_found():
     assert response.json["error"] == "Not found"
 
 
-def test_internal_server_error():
-    client = app.test_client()
-
-    @app.route("/test-error")
-    def test_error():
-        raise Exception("Test error")
-
-    app.config["TESTING"] = False
-
+def test_internal_server_error(client):
     response = client.get("/test-error")
 
     assert response.status_code == 500
