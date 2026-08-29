@@ -25,23 +25,34 @@ def test_home(client):
     response = client.get("/")
 
     assert response.status_code == 200
+    assert response.content_type.startswith("text/html")
+    assert b"Welcome to DamiLab" in response.data
+    assert b"Currently offering 3 courses" in response.data
+
+
+def test_health(client):
+    response = client.get("/health")
+
+    assert response.status_code == 200
     assert response.is_json
-    assert response.json["message"] == "Damilab API is running"
-    assert response.json["version"] == "1.0.0"
+    assert response.json["status"] == "ok"
 
 
-def test_health(client):def test_courses(client):
+def test_courses(client):
     response = client.get("/api/courses")
 
     assert response.status_code == 200
     assert response.is_json
     assert "courses" in response.json
     assert len(response.json["courses"]) == 3
-    response = client.get("/health")
+
+
+def test_contact_get(client):
+    response = client.get("/contact")
 
     assert response.status_code == 200
-    assert response.is_json
-    assert response.json["status"] == "ok"
+    assert response.content_type.startswith("text/html")
+    assert b"Contact Me" in response.data
 
 
 def test_not_found(client):
