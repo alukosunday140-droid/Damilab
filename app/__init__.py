@@ -1,7 +1,8 @@
-from flask import Flask, jsonify
+from flask import Flask, flash, jsonify, redirect, render_template, url_for
 
 from .config import DevelopmentConfig
 from .courses import get_courses
+from .forms import ContactForm
 
 
 def create_app(config_class=DevelopmentConfig):
@@ -14,11 +15,10 @@ def create_app(config_class=DevelopmentConfig):
     def home():
         courses = get_courses()
 
-        return jsonify({
-            "message": "Damilab API is running",
-            "version": "1.0.0",
-            "course_count": len(courses),
-        })
+        return render_template(
+            "index.html",
+            course_count=len(courses),
+        )
 
     @app.route("/health")
     def health():
@@ -31,6 +31,16 @@ def create_app(config_class=DevelopmentConfig):
         return jsonify({
             "courses": get_courses()
         })
+
+    @app.route("/contact", methods=["GET", "POST"])
+    def contact():
+        form = ContactForm()
+
+        if form.validate_on_submit():
+            flash("Your message has been received.")
+            return redirect(url_for("contact"))
+
+        return render_template("Contact.html", form=form)
 
     @app.errorhandler(404)
     def not_found(error):
