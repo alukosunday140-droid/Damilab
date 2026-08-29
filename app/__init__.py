@@ -1,6 +1,7 @@
 from flask import Flask, jsonify
 
 from .config import DevelopmentConfig
+from .courses import get_courses
 
 
 def create_app(config_class=DevelopmentConfig):
@@ -11,15 +12,24 @@ def create_app(config_class=DevelopmentConfig):
 
     @app.route("/")
     def home():
+        courses = get_courses()
+
         return jsonify({
             "message": "Damilab API is running",
-            "version": "1.0.0"
+            "version": "1.0.0",
+            "course_count": len(courses),
         })
 
     @app.route("/health")
     def health():
         return jsonify({
             "status": "ok"
+        })
+
+    @app.route("/api/courses")
+    def courses():
+        return jsonify({
+            "courses": get_courses()
         })
 
     @app.errorhandler(404)
