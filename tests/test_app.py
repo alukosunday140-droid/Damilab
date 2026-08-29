@@ -30,7 +30,13 @@ def test_home(client):
     assert response.json["version"] == "1.0.0"
 
 
-def test_health(client):
+def test_health(client):def test_courses(client):
+    response = client.get("/api/courses")
+
+    assert response.status_code == 200
+    assert response.is_json
+    assert "courses" in response.json
+    assert len(response.json["courses"]) == 3
     response = client.get("/health")
 
     assert response.status_code == 200
